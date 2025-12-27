@@ -2,89 +2,8 @@ import { TASK_STATUS, Task } from "./core/task.js";
 import { Scheduler } from './core/scheduler.js';
 import { Renderer } from "./ui/Renderer.js";
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-// Helper to create a "fake" delay (simulating network or heavy work)
-// const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-// const scheduler = new Scheduler(2); // Only 2 at a time!
-
-// // Create 5 tasks
-// for (let i = 1; i <= 3; i++) {
-//     const executor = async () => {
-//         console.log(`[Work] Task ${i} is starting heavy work...`);
-//         await delay(2000); // Wait 2 seconds
-//         console.log(`[Work] Task ${i} is done!`);
-//     };
-
-//     const task = new Task(i, `Task-${i}`, executor);
-//     scheduler.addTask(task);
-// }
-
-const scheduler = new Scheduler(3);
-
-// const work = async (task) => {
-//     try {
-//         for (let i = 0; i < 10; i++) {
-//             // This is the "checkpoint"
-//             await task.checkSignal();
-
-//             console.log(`%c Task ${task.id} working step ${i}...`, "color: #3498db");
-//             await new Promise(r => setTimeout(r, 1000));
-//         }
-//     } catch (err) {
-//         if (err.message === "TASK_CANCELLED") {
-//             console.log("Task was successfully cancelled.");
-//         } else {
-//             throw err; // Re-throw real errors
-//         }
-//     }
-// };
-
-// // Pass the function properly.
-// // We want the scheduler to call work(myTask)
-// const myTask = new Task(1, "Controllable-Task", () => work(myTask));
-// scheduler.addTask(myTask);
-
-// setTimeout(() => {
-//     console.log("%c --- TRIGGERING PAUSE ---", "color: #f1c40f; font-weight: bold");
-//     scheduler.pauseTask(1);
-// }, 2500);
-
-// setTimeout(() => {
-//     console.log("%c --- TRIGGERING RESUME ---", "color: #2ecc71; font-weight: bold");
-//     scheduler.resumeTask(1);
-// }, 5000);
-
-
-// --- THE SUBSCRIBERS ---
-// We can have as many listeners as we want!
-
-// scheduler.on('task:queued', (task) => {
-//     console.log(`%c [Event] Waiting: ${task.name}`, "color: #7f8c8d");
-// });
-
-// scheduler.on('task:started', (data) => {
-//     console.log(`%c [Event] Rocket Launch! Task ${data.id} is now RUNNING`, "color: #3498db; font-weight: bold");
-// });
-
-// scheduler.on('task:completed', (id) => {
-//     console.log(`%c [Event] Success! Task ${id} reached the finish line.`, "color: #27ae60; font-weight: bold");
-// });
-
-// // Now add a task and watch the "Radio Station" work
-// const work = async () => {
-//     await new Promise(r => setTimeout(r, 1000));
-// };
-
-// const t1 = new Task(1, "Event-Driven-Task", work);
-// scheduler.addTask(t1);
-
-
-const renderer = new Renderer("task-container");
 const scheduler = new Scheduler(3);
 const renderer = new Renderer("task-container");
-
 
 let taskCounter = 0;
 

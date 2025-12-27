@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-This is the final, comprehensive **Asynchronous Task Orchestrator** documentation. It is designed to be placed in the root of your project as a `progress.md` file. It serves as a technical portfolio piece, explaining not just *what* was built, but the *engineering philosophy* behind it.
-=======
->>>>>>> Stashed changes
 
 
 # Asynchronous Task Orchestrator
@@ -96,7 +92,3 @@ The project is built using a layered approach to ensure **Separation of Concerns
 
 This project demonstrates that complex application logic can be handled elegantly with **Vanilla JavaScript**. By avoiding frameworks, we gained a deep understanding of how the browser manages memory, execution, and the user interface.
 
-<<<<<<< Updated upstream
-**What is the next project you would like to explore to continue your mastery of JavaScript?**
-=======
->>>>>>> Stashed changes
