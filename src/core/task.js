@@ -23,6 +23,47 @@ export class Task {
         this.startedAt = null;
         this.completedAt = null;
         this.error = null;
+        this.control = {
+            isPaused: false,
+            isCancelled: false,
+            pausePromise: null,
+            resolvePause: null
+        };
+
+    }
+
+    /**
+     * Static method to turn a plain JSON object back into a Task instance
+     */
+    static fromJSON(json) {
+        const task = new Task(json.id, json.name, null);
+
+        // Copy all stored properties back onto the new object
+        Object.assign(task, json);
+
+        // Ensure the control flags are reset/re-initialized
+        task.control = {
+            isPaused: false,
+            isCancelled: false,
+            pausePromise: null,
+            resolvePause: null
+        };
+
+        return task;
+    }
+
+    async checkSignal() {
+        if (this.control.isCancelled) {
+            throw new Error(`Task ${this.id} has been cancelled.`);
+        }
+
+        if (this.control.isPaused) { 
+            console.log(`Task ${this.id} is pausing ...`);
+            this.control.pausePromise = new Promise((resolve) => { 
+                this.control.resolvePause = resolve;
+            })
+        }
+        return this.control.pausePromise;
     }
 
     transition(newStatus) {
@@ -38,5 +79,13 @@ export class Task {
         console.log(`Task ${this.id}: ${this.status} -> ${newStatus}`);
         this.status = newStatus;
 
+    }
+
+    destroy() {
+        // Release references to help the Garbage Collector
+        this.executor = null;
+        this.control.pausePromise = null;
+        this.control.resolvePause = null;
+        console.log(`Memory: Task ${this.id} references cleared.`);
     }
 }

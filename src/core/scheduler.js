@@ -1,11 +1,16 @@
 "use strict";
 
 import { TASK_STATUS } from './task.js';
-export class Scheduler {
-    constructor(maxConcurrency = 2) {
+import { EventEmitter } from './event.js'
+import { StorageManager } from '../utils/storage.js';
+export class Scheduler extends EventEmitter {
+    constructor(maxConcurrency = 3) {
+        super();
         this.maxConcurrency = maxConcurrency;
         this.queue = [];      // Tasks waiting to start
         this.running = [];    // Tasks currently executing
+        this.storage = new StorageManager();
+        this.history = [];
     }
 
     /**
@@ -14,16 +19,13 @@ export class Scheduler {
     addTask(task) {
         task.transition(TASK_STATUS.QUEUED);
         this.queue.push(task);
-        console.log(`Scheduler: Task ${task.id} added to queue. Queue size: ${this.queue.length}`);
+
+        this.emit('task:queued', { id: task.id, name: task.name });
 
         // Every time a task is added, we check if we can run something
-        this._runNext();
+        this.runNext();
     }
-
-    /**
-     * Prefixed with _ to indicate it's a "private" method.
-     */
-    _runNext() {
+    runNext() {
         // Condition: Is there space available and tasks waiting?
         if (this.running.length < this.maxConcurrency && this.queue.length > 0) {
 
@@ -31,25 +33,27 @@ export class Scheduler {
             const task = this.queue.shift();
 
             this.running.push(task);
-            this._executeTask(task);
+            this.executeTask(task);
         }
     }
 
     /**
      * Handles the actual async execution of the task.
      */
-    async _executeTask(task) {
+    async executeTask(task) {
         task.transition(TASK_STATUS.RUNNING);
         task.startedAt = Date.now();
-        console.log("aaaaaaaa", task.startedAt)
+        // console.log("aaaaaaaa", task.startedAt)
+        this.emit('task:started', { id: task.id, status: task.status });
 
         try {
             await task.executor();
-
             task.transition(TASK_STATUS.COMPLETED);
+            this.emit('task:completed', task.id);
         } catch (error) {
             task.error = error;
             task.transition(TASK_STATUS.FAILED);
+            this.emit('task:failed', { id: task.id, error: error.message });
         } finally {
             task.completedAt = Date.now();
 
@@ -58,8 +62,43 @@ export class Scheduler {
 
             console.log(`Scheduler: Task ${task.id} finished. Slots available: ${this.maxConcurrency - this.running.length}`);
 
+            if (task.status === 'COMPLETED' || task.status === 'FAILED') {
+                this.history.push(task);
+                this.storage.saveHistory(this.history);
+            }
             // Critical: Try to run the next task in the queue!
-            this._runNext();
+            this.runNext();
+        }
+    }
+
+    pauseTask(taskId) { 
+        const task = this.running.find(t => t.id === taskId);
+        if (task) {
+            task.control.isPaused = true;
+            task.transition(TASK_STATUS.PAUSED);
+        }
+    }
+    resumeTask(taskId) {
+        const task = this.running.find(t => t.id === taskId);
+        if (task && task.control.isPaused) {
+            task.control.isPaused = false;
+            task.transition(TASK_STATUS.RUNNING);
+            if (task.control.resolvePause) {
+                task.control.resolvePause();
+            }
+        }
+    }
+
+    cancelTask(taskId) {
+        let task = this.running.find(t => t.id === taskId);
+        if (!task) {
+            task = this.queue.find(t => t.id === taskId);
+            this.queue = this.queue.filter(t => t.id !== taskId);
+        }
+        task.control.isCancelled = true;
+        task.transition(TASK_STATUS.CANCELED);
+        if (task.control.resolvePause) {
+            task.control.resolvePause();
         }
     }
 }
