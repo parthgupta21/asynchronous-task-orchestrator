@@ -1,10 +1,9 @@
 <<<<<<< Updated upstream
 This is the final, comprehensive **Asynchronous Task Orchestrator** documentation. It is designed to be placed in the root of your project as a `progress.md` file. It serves as a technical portfolio piece, explaining not just *what* was built, but the *engineering philosophy* behind it.
-
----
-
 =======
 >>>>>>> Stashed changes
+
+
 # Asynchronous Task Orchestrator
 
 ### **Engineering Progress & Design Document**

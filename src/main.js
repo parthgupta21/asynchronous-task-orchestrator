@@ -3,6 +3,7 @@ import { Scheduler } from './core/scheduler.js';
 import { Renderer } from "./ui/Renderer.js";
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 // Helper to create a "fake" delay (simulating network or heavy work)
 // const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -81,15 +82,12 @@ const scheduler = new Scheduler(3);
 
 
 const renderer = new Renderer("task-container");
-let taskCounter = 0;
-
-=======
 const scheduler = new Scheduler(3);
 const renderer = new Renderer("task-container");
 
+
 let taskCounter = 0;
 
->>>>>>> Stashed changes
 // --- STEP 1: Listen to the Brain, Update the Eyes ---
 
 scheduler.on('task:queued', (task) => {
