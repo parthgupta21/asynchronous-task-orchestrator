@@ -1,0 +1,68 @@
+:root {
+    --bg: #f4f7f6;
+    --card-bg: #ffffff;
+    --primary: #3498db;
+    --success: #2ecc71;
+    --warning: #f1c40f;
+    --danger: #e74c3c;
+}
+
+body { font-family: sans-serif; background: var(--bg); padding: 20px; }
+
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.task-card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+/* Status Based Colors */
+.task-card[data-status="RUNNING"] { border-left-color: var(--primary); background: #ebf5fb; }
+.task-card[data-status="COMPLETED"] { border-left-color: var(--success); opacity: 0.8; }
+.task-card[data-status="PAUSED"] { border-left-color: var(--warning); }
+.task-card[data-status="FAILED"], .task-card[data-status="CANCELED"] { border-left-color: var(--danger); }
+
+.status-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #eee;
+    float: right;
+}
+
+.progress-bar {
+    height: 8px;
+    background: #eee;
+    border-radius: 4px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+.danger-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.danger-btn:hover {
+    background-color: #c0392b;
+}
