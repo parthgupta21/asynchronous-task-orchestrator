@@ -1,6 +1,6 @@
 import { TASK_STATUS, Task } from "./core/task.js";
 import { Scheduler } from './core/scheduler.js';
-import { Renderer } from "./ui/Renderer.js";
+import { Renderer } from "./ui/renderer.js";
 
 const scheduler = new Scheduler(3);
 const renderer = new Renderer("task-container");
