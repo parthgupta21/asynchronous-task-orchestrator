@@ -5,14 +5,10 @@ export class Renderer {
         this.container = document.getElementById(containerId);
     }
 
-    /**
-     * Creates the HTML for a task and adds it to the screen.
-     */
     createTaskCard(task) {
         const card = document.createElement('div');
         card.className = 'task-card';
         card.id = `task-${task.id}`;
-        // We use a data-status attribute so our CSS can change the color automatically
         card.setAttribute('data-status', task.status);
 
         card.innerHTML = `
@@ -32,10 +28,6 @@ export class Renderer {
 
         this.container.appendChild(card);
     }
-
-    /**
-     * Updates an existing card's visual state.
-     */
     updateTaskStatus(taskId, status) {
         const card = document.getElementById(`task-${taskId}`);
         if (!card) return;

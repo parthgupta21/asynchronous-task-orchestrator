@@ -25,6 +25,10 @@ scheduler.on('task:failed', (data) => {
     renderer.updateTaskStatus(data.id, 'FAILED');
 });
 
+scheduler.on('task:finished', (data) => {
+    console.log(`%c [Capacity Update] Task ${data.id} is done. Free Slots: ${data.slotsAvailable}`, "color: #9b59b6");
+});
+
 // --- STEP 2: Event Delegation (One listener for all buttons) ---
 
 document.getElementById('task-container').addEventListener('click', (e) => {
