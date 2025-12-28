@@ -31,7 +31,6 @@ export class Task {
         };
 
     }
-
     /**
      * Static method to turn a plain JSON object back into a Task instance
      */
