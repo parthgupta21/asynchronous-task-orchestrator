@@ -1,7 +1,7 @@
 import { TASK_STATUS, Task } from "./core/task.js";
 import { Scheduler } from './core/scheduler.js';
 import { Renderer } from "./ui/Renderer.js";
-import { Toast } from "./ui/Toast.js";
+import { Toast } from "./ui/toast.js";
 
 
 const scheduler = new Scheduler(3);
