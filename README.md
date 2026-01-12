@@ -43,13 +43,14 @@ A task represents an asynchronous job. A job can be anything that takes time, su
 
 Each task moves through a fixed lifecycle:
 
-Created
-Queued
-Running
-Paused
-Completed
-Failed
-Canceled
+1. Created
+2. Queued
+3. Running
+4. Paused
+5. Completed
+6. Failed
+7. Canceled
+
 
 The system prevents illegal transitions. A task that has completed cannot return to running. A task that was never started cannot resume. A state machine object enforces these rules inside the Task model.
 
