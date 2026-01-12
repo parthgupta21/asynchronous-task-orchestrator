@@ -66,3 +66,66 @@ body { font-family: sans-serif; background: var(--bg); padding: 20px; }
 .danger-btn:hover {
     background-color: #c0392b;
 }
+
+#toast-container {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    pointer-events: none; /* Allows clicking through the container gap */
+}
+
+.toast {
+    pointer-events: auto; /* Re-enable clicking for individual toasts */
+    padding: 16px 24px;
+    min-width: 300px;
+    border-radius: 12px;
+    color: #f3efef;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: #2c3e50; 
+    
+    /* Strong Shadow for depth */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    /* Border-left accent for color-coding */
+    border-left: 8px solid rgba(0, 0, 0, 0.2);
+    
+    /* Animation settings */
+    transform: translateX(150%);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Makes text stand out against any background */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+/* Eye-pleasing Status Colors */
+.toast-info { 
+    background: linear-gradient(135deg, #3498db, #2980b9); /* Bright Blue */
+}
+
+.toast-success { 
+    background: linear-gradient(135deg, #27ae60, #1e8449); /* Emerald Green */
+}
+
+.toast-warning { 
+    background: linear-gradient(135deg, #f39c12, #d35400); /* Deep Orange */
+}
+
+.toast-error { 
+    background: linear-gradient(135deg, #e74c3c, #c0392b); /* Alizarin Red */
+}
+
+/* Add a small icon-like effect using pseudo-elements (Optional) */
+.toast::before {
+    content: '●';
+    margin-right: 12px;
+    opacity: 0.8;
+}

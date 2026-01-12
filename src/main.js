@@ -1,6 +1,8 @@
 import { TASK_STATUS, Task } from "./core/task.js";
 import { Scheduler } from './core/scheduler.js';
 import { Renderer } from "./ui/Renderer.js";
+import { Toast } from "./ui/Toast.js";
+
 
 const scheduler = new Scheduler(3);
 const renderer = new Renderer("task-container");
@@ -9,24 +11,35 @@ let taskCounter = 0;
 
 // --- STEP 1: Listen to the Brain, Update the Eyes ---
 
+// --- STEP 1: Listen to the Brain, Update the Eyes ---
+
 scheduler.on('task:queued', (task) => {
     renderer.createTaskCard(task);
+    Toast.show(`Task #${task.id} added to queue`, 'info'); // ADD THIS
 });
 
 scheduler.on('task:started', (data) => {
     renderer.updateTaskStatus(data.id, 'RUNNING');
+    Toast.show(`Task #${data.id} is now running`, 'success'); // ADD THIS
 });
 
 scheduler.on('task:completed', (taskId) => {
     renderer.updateTaskStatus(taskId, 'COMPLETED');
+    Toast.show(`Task #${taskId} finished successfully!`, 'success'); // ADD THIS
 });
 
 scheduler.on('task:failed', (data) => {
     renderer.updateTaskStatus(data.id, 'FAILED');
+    Toast.show(`Task #${data.id} failed or cancelled`, 'error'); // ADD THIS
 });
 
-scheduler.on('task:finished', (data) => {
-    console.log(`%c [Capacity Update] Task ${data.id} is done. Free Slots: ${data.slotsAvailable}`, "color: #9b59b6");
+// New listeners for specific control actions
+scheduler.on('task:paused', (taskId) => {
+    Toast.show(`Task #${taskId} paused`, 'warning');
+});
+
+scheduler.on('task:resumed', (taskId) => {
+    Toast.show(`Task #${taskId} resumed`, 'info');
 });
 
 // --- STEP 2: Event Delegation (One listener for all buttons) ---

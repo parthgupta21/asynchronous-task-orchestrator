@@ -65,6 +65,7 @@ export class Scheduler extends EventEmitter {
         if (task) {
             task.control.isPaused = true;
             task.transition(TASK_STATUS.PAUSED);
+            this.emit('task:paused', taskId);
         }
     }
     resumeTask(taskId) {
@@ -75,6 +76,7 @@ export class Scheduler extends EventEmitter {
             if (task.control.resolvePause) {
                 task.control.resolvePause();
             }
+            this.emit('task:resumed', taskId);
         }
     }
 
@@ -89,5 +91,6 @@ export class Scheduler extends EventEmitter {
         if (task.control.resolvePause) {
             task.control.resolvePause();
         }
+        this.emit('task:canceled', taskId);
     }
 }
